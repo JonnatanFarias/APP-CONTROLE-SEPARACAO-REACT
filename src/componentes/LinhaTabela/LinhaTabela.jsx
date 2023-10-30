@@ -213,6 +213,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                                     <InputLabel variant="standard" htmlFor="uncontrolled-native">
                                     </InputLabel>
                                     <NativeSelect
+                                        color='error'
                                         value={selectedSeparador}
                                         inputProps={{
                                             name: 'separador',
