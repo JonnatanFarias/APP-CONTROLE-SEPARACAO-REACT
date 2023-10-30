@@ -1,6 +1,41 @@
 {
   "posts": [
-    
+    {
+      "separador": "363 - ANDRE LUIS DA SILVA",
+      "numeroPedido": "2435345",
+      "tempoInicio": "15:10:28",
+      "tempoFim": "15:13:17",
+      "tempoReal": "00:00:10",
+      "tempoDuracao": "00:02:49",
+      "status": true,
+      "pausado": false,
+      "dataSep": "30/10/2023",
+      "id": 1
+    },
+    {
+      "separador": "503 - ANDERSON DOS SANTOS SILVA",
+      "numeroPedido": "23345",
+      "tempoInicio": "15:23:42",
+      "tempoFim": "15:24:34",
+      "tempoReal": "00:00:46",
+      "tempoDuracao": "00:00:52",
+      "status": true,
+      "pausado": true,
+      "dataSep": "30/10/2023",
+      "id": 2
+    },
+    {
+      "separador": "363 - ANDRE LUIS DA SILVA",
+      "numeroPedido": "235354657",
+      "tempoInicio": "15:24:44",
+      "tempoFim": "15:25:04",
+      "tempoReal": "00:00:10",
+      "tempoDuracao": "00:00:20",
+      "status": true,
+      "pausado": false,
+      "dataSep": "30/10/2023",
+      "id": 3
+    }
   ],
   "funcionarios": [
     {

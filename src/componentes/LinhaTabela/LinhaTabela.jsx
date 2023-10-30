@@ -41,7 +41,6 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
     function finalizar(e) {
         const tempoFim = new Date().toLocaleTimeString()
 
-
         const [horasFim, minutosFim, segundosFim] = tempoFim.split(":");
         const [horasInicio, minutosInicio, segundosInicio] = tempoInicio.split(":");
 
@@ -88,7 +87,6 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
     function pausar(e) {
         // Inicie a solicitação com o estado atual
         const novoEstadoPausa = !pausado;
-
         axios.patch(`http://localhost:3000/posts/${e}`, { pausado: novoEstadoPausa, horaPausada: true })
             .then((response) => {
                 let resposta = response.data;
@@ -137,15 +135,15 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
             setMostrarDialog(true);
         } else {
             axios
-                .patch(`http://localhost:3000/posts/${id}`, { separador: selectedSeparador })
-                .then((response) => {
+            .patch(`http://localhost:3000/posts/${id}`, { separador: selectedSeparador })
+            .then((response) => {
                     console.log("Nome do separador atualizado com sucesso.");
                     // Desabilitar a edição após a atualização
                     setEditing(false);
-                })
-                .catch((erro) => {
+            })
+            .catch((erro) => {
                     console.log(erro);
-                });
+            });
         }
     }
 
@@ -183,7 +181,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
     };
 
     return (
-        <tr className={corDaLinha}>
+            <tr className={corDaLinha}>
             {status === false ? (
                 <>
                     <td>
@@ -193,8 +191,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                             checked={registrosSelecionados.includes(id)}
                             style={{
                                 display: registrosSelecionados.includes(id) ? 'none' : 'block',
-                            }}
-                        />
+                            }} />
                         {registrosSelecionados.includes(id) ? (
                             <IconButton
                                 variant="contained"
@@ -208,7 +205,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                 </>
             ) : null}
             <td>
-                <div className="btnEditarEsep" >
+                <div className="btnEditarEsep">
                     {editing ? (
                         <div>
                             <div className="inputSepadoresEdit">
@@ -226,7 +223,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                                     >
                                         <option>SELECIONE UM SEPARADOR</option>
                                         {separadores.map(separador => (
-                                            <option key={separador.id} value={separador.name} >
+                                            <option key={separador.id} value={separador.name}>
                                                 {separador.name}
                                             </option>
                                         ))}
@@ -267,9 +264,10 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                 <div className="btnActions">
                     <Button variant="contained" size="small" color={pausado ? "warning" : "error"} className="botaoDinamico" value={id} onClick={(e) => pausar(e.target.value)}>{dados.pausado ? "Retomar" : "Pausar"}</Button>
                     <Button size="small" variant="contained" color="error" value={id} onClick={(e) => finalizar(e.target.value)}>Finalizar</Button>
-                </div>
-            }</td>
-            <div>
+                </div>}
+              </td>
+              <td>
+              <div>
                 {mostrarDialogExclusao && (
                     <DialogMui
                         open={mostrarDialogExclusao}
@@ -287,7 +285,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                                     .then((response) => {
                                         // Registro excluído com sucesso, pode atualizar o estado ou fazer outras ações
                                         console.log(`Registro ${id} excluído.`);
-                                        localStorage.delete(id)
+                                        localStorage.removeItem(id);
                                     })
                                     .catch((erro) => {
                                         console.error(`Erro ao excluir registro ${id}:`, erro);
@@ -296,11 +294,10 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                             // Limpe a lista de registros selecionados
                             setRegistrosSelecionados([]);
                             setMostrarDialogExclusao(false);
-                        }}
-                    />
-                )}
-            </div>
+                        } } />
+                    )}
+                </div>
+              </td>
         </tr>
-
     )
 }

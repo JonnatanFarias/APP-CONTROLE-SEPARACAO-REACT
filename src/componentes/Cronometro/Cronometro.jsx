@@ -49,16 +49,18 @@ export default function Cronometro({ pausado, pegarHoraPausada, id, status }) {
 
   }, [horaFormatada, pegarHoraPausada])
 
-
+  /// CÓDIGO MELHORADO PARA EVITAR (VAZAMENTO DE MEMÓRIA)
   useEffect(() => {
-    if (status === undefined) {
-     
-    } else if (status === false) {
-      window.addEventListener("beforeunload", () => {
-        localStorage.setItem(id, horaFormatada)
-      })
+    if (status === false) {
+      const handleBeforeUnload = () => {
+        localStorage.setItem(id, horaFormatada);
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
     }
-  }, [horaFormatada, id, status])
+  }, [horaFormatada, id, status]);
 
 
   return (

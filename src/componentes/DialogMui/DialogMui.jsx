@@ -15,7 +15,7 @@ export default function AlertDialog({ open, onClose, titulo, messagem, okTxt, ca
 
     return (
         <Dialog
-            open={open}
+            open={open ? open : false}
             onClose={onClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
