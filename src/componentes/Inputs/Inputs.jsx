@@ -79,6 +79,7 @@ export default function Inputs() {
                         <InputLabel variant="standard" htmlFor="uncontrolled-native">
                         </InputLabel>
                         <NativeSelect
+                            color='error'
                             value={selectedSeparador}
                             inputProps={{
                                 name: 'separador',
@@ -96,7 +97,7 @@ export default function Inputs() {
                     </FormControl>
                 </span>
                 <span>
-                    <TextField variant="filled" label="Número de pedido" type="text" id="numeroPedido" value={campoPedido} onChange={(e) => setCampoPedido(e.target.value)} />
+                    <TextField variant="standard" label="Número do pedido" color='error' type="text" id="numeroPedido" value={campoPedido} onChange={(e) => setCampoPedido(e.target.value)} />
                 </span>
                 <Button variant="contained" id="nomeSeparador" color='error' startIcon={<Done />} onClick={() => enviarInformacoes()}>INICIAR</Button>
             </div>
