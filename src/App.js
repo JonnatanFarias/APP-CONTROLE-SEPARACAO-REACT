@@ -3,7 +3,7 @@ import Inputs from './componentes/Inputs/Inputs';
 import Tabela from './componentes/Tabela/Tabela';
 import Relogio from './componentes/Relogio/Relogio';
 import Aviso from './componentes/Aviso/Aviso';
-
+import DialogMui from './componentes/DialogMui/DialogMui';
 function App() {
   return (
     <div className='containerBody'>
@@ -17,6 +17,7 @@ function App() {
       <Tabela status={false}/>
       <h1>Pedidos Concluídos</h1>
       <Tabela status={true}/>
+      <DialogMui/>
     </div>
   )
 }

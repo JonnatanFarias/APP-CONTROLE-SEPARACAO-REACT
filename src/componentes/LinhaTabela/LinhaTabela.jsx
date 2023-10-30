@@ -11,12 +11,20 @@ import Edit from "@mui/icons-material/Edit";
 import Done from "@mui/icons-material/Done";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
+import DialogMui from '../DialogMui/DialogMui';
+
 
 
 export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, status, pausado }) {
 
     const [registrosSelecionados, setRegistrosSelecionados] = useState([]);
 
+    const [mostrarDialogExclusao, setMostrarDialogExclusao] = useState(false);
+
+    const [mostrarDialog, setMostrarDialog] = useState(false);
+    const handleDialogClose = () => {
+        setMostrarDialog(false);
+    };
 
     const [dados, setDados] = useState([])
     const [estadoPausa, setEstadoPausa] = useState(pausado)
@@ -58,7 +66,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
             tempoInicio: tempoInicio,
             tempoFim: tempoFim,
             tempoReal: conteudoCronometro,
-            tempoDuracao:diferencaFormatada,
+            tempoDuracao: diferencaFormatada,
             status: true,
             pausado: estadoPausa,
             dataSep: dados.dataSep,
@@ -73,7 +81,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                 console.log(erro)
             })
 
-            localStorage.removeItem(id)
+        localStorage.removeItem(id)
     }
 
 
@@ -126,7 +134,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
     // SALVA O NOME DEPOIS DE EDITADO NO JSON
     function salvarNome() {
         if (selectedSeparador === "") {
-            alert("Por favor, selecione um separador.");
+            setMostrarDialog(true);
         } else {
             axios
                 .patch(`http://localhost:3000/posts/${id}`, { separador: selectedSeparador })
@@ -168,31 +176,11 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
     };
 
     const excluirRegistrosSelecionados = () => {
-        
-
-
-        if(window.confirm("deseja realmente deletar o registro selecionado?")){
-            registrosSelecionados.forEach((id) => {
-                // Envie solicitação de exclusão para o servidor com o id do registro
-                axios.delete(`http://localhost:3000/posts/${id}`)
-                    .then((response) => {
-                        // Registro excluído com sucesso, pode atualizar o estado ou fazer outras ações
-                        console.log(`Registro ${id} excluído.`);
-                        localStorage.delete(id)
-                    })
-                    .catch((erro) => {
-                        console.error(`Erro ao excluir registro ${id}:`, erro);
-                    });
-            });
-    
-            // Limpe a lista de registros selecionados
-            setRegistrosSelecionados([]);
+        if (registrosSelecionados.length > 0) {
+            setMostrarDialogExclusao(true);
         }
-        
+
     };
-
-
-
 
     return (
         <tr className={corDaLinha}>
@@ -233,7 +221,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                                             name: 'separador',
                                             id: 'uncontrolled-native',
                                         }}
-                                       style={{margin: "0 auto"}}
+                                        style={{ margin: "0 auto" }}
                                         onChange={handleSeparadorChange}
                                     >
                                         <option>SELECIONE UM SEPARADOR</option>
@@ -253,15 +241,26 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                         (editing ? <IconButton color="error" aria-label="salvar" onClick={salvarNome} onChange={(e) => setSeparadorEditado(e.target.value)}><Done /></IconButton> :
                             <IconButton className="botao-de-erro" color="error" aria-label="editar" onClick={() => setEditing(true)}><Edit /></IconButton>
                         ) : null}
+
+                    <div>
+                        {mostrarDialog && <DialogMui
+                            open={mostrarDialog}
+                            onClose={() => setMostrarDialog(false)}
+                            titulo={"⚠️ Mensagem de validação"}
+                            messagem={"Opps! 😖, É necessário fornecer um separador."}
+                            okTxt={"Entendi"}
+                            ocultarBtn={false}
+                            onConfirm={handleDialogClose} />}
+                    </div>
                 </div>
             </td>
             <td>{numeroPedido}</td>
             <td>{tempoInicio}</td>
-            <td>{dados.tempoReal ? dados.tempoReal : <Cronometro id={id} status={dados.status} pegarHoraPausada={pegarHoraPausada}  pausado={estadoPausa} />}</td>
+            <td>{dados.tempoReal ? dados.tempoReal : <Cronometro id={id} status={dados.status} pegarHoraPausada={pegarHoraPausada} pausado={estadoPausa} />}</td>
             <td>{dados.tempoFim ? dados.tempoFim : "Aguardando..."}</td>
             <td>{dados.tempoDuracao ? dados.tempoDuracao : "Aguardando..."}</td>
             <td>
-                {status === true ? <div className="circuloVerde"></div> :( pausado ? <div className="circuloAmarelo"></div>: <div className="circuloVermelho"></div>)}
+                {status === true ? <div className="circuloVerde"></div> : (pausado ? <div className="circuloAmarelo"></div> : <div className="circuloVermelho"></div>)}
             </td>
             <td>{status === true ? "Concluido"
                 :
@@ -270,6 +269,38 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
                     <Button size="small" variant="contained" color="error" value={id} onClick={(e) => finalizar(e.target.value)}>Finalizar</Button>
                 </div>
             }</td>
+            <div>
+                {mostrarDialogExclusao && (
+                    <DialogMui
+                        open={mostrarDialogExclusao}
+                        onClose={() => setMostrarDialogExclusao(false)}
+                        titulo={"⚠️ Mensagem de validação"}
+                        messagem={"❌ Você realmente deseja excluir esse item da tabela?."}
+                        okTxt="SIM"
+                        ocultarBtn={true}
+                        cancelTxt={"NÃO"}
+                        onConfirm={() => {
+                            //EXCLUIR OS REGISTROS AO CONFIRMAR EM SIM!!
+                            registrosSelecionados.forEach((id) => {
+                                // Envie solicitação de exclusão para o servidor com o id do registro
+                                axios.delete(`http://localhost:3000/posts/${id}`)
+                                    .then((response) => {
+                                        // Registro excluído com sucesso, pode atualizar o estado ou fazer outras ações
+                                        console.log(`Registro ${id} excluído.`);
+                                        localStorage.delete(id)
+                                    })
+                                    .catch((erro) => {
+                                        console.error(`Erro ao excluir registro ${id}:`, erro);
+                                    });
+                            });
+                            // Limpe a lista de registros selecionados
+                            setRegistrosSelecionados([]);
+                            setMostrarDialogExclusao(false);
+                        }}
+                    />
+                )}
+            </div>
         </tr>
+
     )
 }

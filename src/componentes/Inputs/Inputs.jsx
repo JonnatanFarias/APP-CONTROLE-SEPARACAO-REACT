@@ -7,21 +7,27 @@ import { FormControl } from '@mui/material';
 import { InputLabel } from '@mui/material';
 import { NativeSelect } from '@mui/material';
 import { Done } from '@mui/icons-material';
+import DialogMui from '../DialogMui/DialogMui';
 
 export default function Inputs() {
 
     //const [campoSeparador, setCampoSeparador] = useState('')
     const [campoPedido, setCampoPedido] = useState('')
-    
+
     const DataSep = new Date()
 
     const [separadores, setSeparadores] = useState([]);
     const [selectedSeparador, setSelectedSeparador] = useState('');
 
+    const [mostrarDialog, setMostrarDialog] = useState(false);
+    const handleDialogClose = () => {
+        setMostrarDialog(false);
+    };
 
     function enviarInformacoes() {
         if (selectedSeparador === "" || selectedSeparador === "SELECIONE UM SEPARADOR" || campoPedido.trim() === '') {
-            alert("Por favor, selecione um separador e insira um número de pedido.");
+            setMostrarDialog(true);
+            //alert("Por favor, selecione um separador e insira um número de pedido.");
         } else {
             const TempoInicio = new Date()
 
@@ -93,6 +99,16 @@ export default function Inputs() {
                     <TextField variant="filled" label="Número de pedido" type="text" id="numeroPedido" value={campoPedido} onChange={(e) => setCampoPedido(e.target.value)} />
                 </span>
                 <Button variant="contained" id="nomeSeparador" color='error' startIcon={<Done />} onClick={() => enviarInformacoes()}>INICIAR</Button>
+            </div>
+            <div>
+                {mostrarDialog && <DialogMui
+                    open={mostrarDialog}
+                    onClose={() => setMostrarDialog(false)}
+                    titulo={"⚠️ Mensagem de validação"}
+                    messagem={"Opps! 😖, É necessário fornecer um separador e um número de pedido válido."}
+                    okTxt={"Entendi"}
+                    ocultarBtn={false}
+                    onConfirm={handleDialogClose} />}
             </div>
         </header>
     )

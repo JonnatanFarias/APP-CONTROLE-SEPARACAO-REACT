@@ -1,41 +1,6 @@
 {
   "posts": [
-    {
-      "separador": "461 - ALESSANDRO SERAFIM PEREIRA",
-      "numeroPedido": "123456",
-      "tempoInicio": "08:01:40",
-      "tempoFim": "08:06:46",
-      "tempoReal": "00:01:29",
-      "tempoDuracao": "00:05:06",
-      "status": true,
-      "pausado": true,
-      "dataSep": "30/10/2023",
-      "id": 1
-    },
-    {
-      "separador": "435 - JAILSON DE SOUSA SANTOS",
-      "numeroPedido": "543564",
-      "tempoInicio": "08:07:16",
-      "tempoFim": "08:07:58",
-      "tempoReal": "00:00:32",
-      "tempoDuracao": "00:00:42",
-      "status": true,
-      "pausado": false,
-      "dataSep": "30/10/2023",
-      "id": 2
-    },
-    {
-      "separador": "507 - ARTHUR MATHEUS BARBOSA AZEVEDO DANTAS",
-      "numeroPedido": "123",
-      "tempoInicio": "08:10:04",
-      "tempoFim": "08:10:26",
-      "tempoReal": "00:00:10",
-      "tempoDuracao": "00:00:22",
-      "status": true,
-      "pausado": false,
-      "dataSep": "30/10/2023",
-      "id": 3
-    }
+    
   ],
   "funcionarios": [
     {
