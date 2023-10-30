@@ -56,3 +56,10 @@ td {
     display: block;
     margin: 0 auto;
 }
+
+.selectQtReg{
+    height: 20px;
+    margin-bottom: 5px;
+    border-color: #D32F2F;
+    cursor: pointer;
+}

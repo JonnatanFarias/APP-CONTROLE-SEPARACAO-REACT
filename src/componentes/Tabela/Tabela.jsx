@@ -8,6 +8,7 @@ export default function Tabela({status}) {
     const [dados, setDados] = useState([])
     const dtAtual = new Date();
     
+    const [quantidadeRegistros, setQuantidadeRegistros] = useState('all');
 
     useEffect(() => {
         axios.get("http://localhost:3000/posts")
@@ -22,9 +23,20 @@ export default function Tabela({status}) {
     
     }, [dados])
 
-   
+    function handleFiltro(value) {
+        setQuantidadeRegistros(value);
+      }
     return (
         <main className="container">
+            <select  defaultValue={"all"} className='selectQtReg' onChange={(e) => handleFiltro(e.target.value)}>
+            <option value="10">10-Registros</option>
+            <option value="20">20-Registros</option>
+            <option value="30">30-Registros</option>
+            <option value="40">40-Registros</option>
+            <option value="50">50-Registros</option>
+            <option value="all">Todos os registros</option>
+            </select>
+
             <table>
                 <thead>
                     <tr>
@@ -40,13 +52,20 @@ export default function Tabela({status}) {
                     </tr>
                 </thead>
                 <tbody>
-                    {dados.map((dado) => (
-                        //só exibi registro do dia, dias anteriores não exibe. 
-                        dado.dataSep >= dtAtual.toLocaleDateString()&&(
-                        dado.status === status && (
-                            <LinhaTabela id={dado.id} pausado={dado.pausado} separador={dado.separador} numeroPedido={dado.numeroPedido} status={dado.status} tempoInicio={dado.tempoInicio} key={dado.id}/>
-                        ))
-                    ))}
+                {dados
+                .filter((dado) => dado.dataSep >= dtAtual.toLocaleDateString() && dado.status === status)
+                .slice(0, quantidadeRegistros === 'all' ? dados.length : Number(quantidadeRegistros))
+                .map((dado) => (
+                <LinhaTabela
+                    id={dado.id}
+                    pausado={dado.pausado}
+                    separador={dado.separador}
+                    numeroPedido={dado.numeroPedido}
+                    status={dado.status}
+                    tempoInicio={dado.tempoInicio}
+                    key={dado.id}
+                />
+                ))}
                 </tbody>
             </table>
         </main>
