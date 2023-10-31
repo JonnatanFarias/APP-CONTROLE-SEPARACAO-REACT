@@ -69,6 +69,7 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
             status: true,
             pausado: estadoPausa,
             dataSep: dados.dataSep,
+            posicao:"concluido",
             id: { e }
 
         }

@@ -37,6 +37,7 @@ export default function Inputs() {
                 tempoInicio: TempoInicio.toLocaleTimeString(),
                 dataSep: DataSep.toLocaleDateString(),
                 status: false,
+                posicao: "pendente"
             }
 
             axios.post(`http://localhost:3000/posts`, informacoes)
