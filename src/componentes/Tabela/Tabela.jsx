@@ -52,10 +52,11 @@ export default function Tabela({status}) {
                     </tr>
                 </thead>
                 <tbody>
-                {dados
-                .filter((dado) => dado.dataSep >= dtAtual.toLocaleDateString() && dado.status === status)
+                {dados 
+                .filter((dado) => (dado.dataSep >= dtAtual.toLocaleDateString() || dado.pausado) && dado.status === status)
                 .slice(0, quantidadeRegistros === 'all' ? dados.length : Number(quantidadeRegistros))
-                .map((dado) => (
+                .map((dado) => 
+                  (
                 <LinhaTabela
                     id={dado.id}
                     pausado={dado.pausado}

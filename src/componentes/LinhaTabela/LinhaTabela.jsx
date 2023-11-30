@@ -88,7 +88,13 @@ export default function LinhaTabela({ id, separador, numeroPedido, tempoInicio, 
     function pausar(e) {
         // Inicie a solicitação com o estado atual
         const novoEstadoPausa = !pausado;
-        axios.patch(`http://localhost:3000/posts/${e}`, { pausado: novoEstadoPausa, horaPausada: true })
+
+        // Atualize a dataSep se estiver retomando a contagem
+        const dataSepAtualizada = new Date().toLocaleDateString();
+
+        console.log("data : " + dataSepAtualizada)
+
+        axios.patch(`http://localhost:3000/posts/${e}`, { pausado: novoEstadoPausa, horaPausada: true , dataSep: dataSepAtualizada })
             .then((response) => {
                 let resposta = response.data;
                 console.log(resposta);

@@ -7,8 +7,8 @@ export default function Aviso() {
     const [versao, setVersao] = useState("");
 
     useEffect(() => {
-        setInformacao("⚠️(BETA)");
-        setVersao("V.23-11.2.0.11-(aberta)");
+        setInformacao("⚠️(BETA 1)⚠️");
+        setVersao("V.23-12.2.0.12-(aberta)");
     }, []);
 
     return (
